@@ -1,7 +1,7 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "HouseValue",
+  "author": "Rajkiran Panuganti",
+  "homepage": "",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
@@ -23,22 +23,26 @@
     "ionic-angular": "2.0.0-rc.5",
     "ionic-native": "2.2.11",
     "ionicons": "3.0.0",
-    "rxjs": "5.0.0-beta.12",
+    "rxjs": "5.0.1",
     "zone.js": "0.6.26",
     "sw-toolbox": "3.4.0"
   },
   "devDependencies": {
     "@ionic/app-scripts": "1.0.0",
-    "typescript": "2.0.9"
+    "@types/google-maps": "^3.2.0",
+    "angularfire2": "^2.0.0-beta.7",
+    "firebase": "^3.6.8",
+    "rxjs": "^5.0.0-beta.12",
+    "typescript": "2.1.4"
   },
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
     "cordova-plugin-console",
     "cordova-plugin-statusbar",
     "cordova-plugin-device",
-    "ionic-plugin-keyboard",
-    "cordova-plugin-splashscreen"
+    "cordova-plugin-splashscreen",
+    "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
-  "description": "HouseValue: An Ionic project"
+  "description": "HouseValue"
 }

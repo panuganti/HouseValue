@@ -1,0 +1,150 @@
+<ion-content class="background">
+  <ion-card *ngIf="showEstimate">
+    <ion-label text-center> Estimate </ion-label>
+    <ion-label text-center class="bigfont">
+      <span style='font-family:Arial;'>&#8377;</span> <span>{{est}} </span></ion-label>
+  </ion-card>
+
+  <ion-card *ngIf="showAddressCard">
+    <ion-item-divider color="light">Location</ion-item-divider>
+    <ion-card-content>
+      <ion-searchbar [(ngModel)]="address" placeholder="Pincode" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)"
+        (ionCancel)="onCancel($event)">
+        </ion-searchbar>
+        <button ion-button clear item-right icon-right (click)="getCurrentLocation()"> Get My Location <ion-icon name="arrow-forward"></ion-icon>  </button>
+    </ion-card-content>
+    <ion-item>
+      <button ion-button clear item-right icon-right *ngIf="showContinueFromMap" (click)="continueFromMap()"> Continue <ion-icon name="arrow-forward"></ion-icon>  </button>
+    </ion-item>
+  </ion-card>
+
+  <div #map id="map" [hidden]="hideMap"></div>
+
+  <ion-card *ngIf="showPropertyTypeCard">
+    <ion-item-divider color="light">Type Of Residential Property</ion-item-divider>
+    <ion-list radio-group [(ngModel)]="propertyType">
+      <ion-item>
+        <ion-label>Multistorey Apartment</ion-label>
+        <ion-radio value="multistoreyApartment"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Builder Floor Apartment</ion-label>
+        <ion-radio value="builderFloorApartment"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Residential House</ion-label>
+        <ion-radio value="residentialHouse"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Villa</ion-label>
+        <ion-radio value="villa"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Penthouse</ion-label>
+        <ion-radio value="penthouse"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Studio Apartment</ion-label>
+        <ion-radio value="studioApartment"></ion-radio>
+      </ion-item>
+    </ion-list>
+    <ion-item>
+      <button ion-button clear item-left icon-left (click)="backToPropertyType()">  <ion-icon name="arrow-back"></ion-icon>  Back </button>
+      <button ion-button clear item-right icon-right (click)="continueFromResidentialPropertyType()"> Continue <ion-icon name="arrow-forward"></ion-icon>  </button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="showAreaCard">
+    <ion-item-group>
+      <ion-item-divider color="light">Area</ion-item-divider>
+      <ion-item>
+        <ion-label color="dark">Lot Size</ion-label>
+        <ion-input type="text" [(ngModel)]="plotSize" text-right placeholder="0"></ion-input>
+        <ion-select item-right>
+          <ion-option selected>Sq. Ft</ion-option>
+          <ion-option>Sq. Yard</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="dark">Built-up Area</ion-label>
+        <ion-input type="text" [(ngModel)]="builtUpSize" text-right placeholder="0"></ion-input>
+        <ion-select item-right>
+          <ion-option selected>Sq. Ft</ion-option>
+          <ion-option>Sq. Yard</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item>
+        <ion-label color="dark"> Bedrooms </ion-label>
+        <ion-icon name="remove" item-right (click)="decBedrooms()"></ion-icon>
+        <ion-badge item-right>{{bedrooms}}</ion-badge>
+        <ion-icon name="add" item-right (click)="incBedrooms()"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-label color="dark"> Bathrooms </ion-label>
+        <ion-icon name="remove" item-right (click)="decBathrooms()"></ion-icon>
+        <ion-badge item-right>{{bathrooms}}</ion-badge>
+        <ion-icon name="add" item-right (click)="incBathrooms()"></ion-icon>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-list radio-group [(ngModel)]="status">
+        <ion-item-divider color="light">Construction Status</ion-item-divider>
+        <ion-item>
+          <ion-label>Ready to Move in</ion-label>
+          <ion-radio value="ready"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Under Construction</ion-label>
+          <ion-radio value="underConstruction"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+      <ion-item *ngIf="false">
+        <ion-label color="dark">Year of Construction</ion-label>
+        <ion-datetime displayFormat="YYYY" min="1970" max="2018" [(ngModel)]="myDate">
+        </ion-datetime>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item>
+      <button ion-button clear item-left icon-left (click)="backToPropertyType()">  <ion-icon name="arrow-back"></ion-icon>  Back </button>
+      <button ion-button clear item-right icon-right (click)="continueForAccuracy()"> Add Details for more Accuracy <ion-icon name="arrow-forward"></ion-icon>  </button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="showAdditionalDetails">
+    <ion-item-group>
+      <ion-list-header color="light">Property Features</ion-list-header>
+      <ion-list radio-group [(ngModel)]="status">
+        <ion-item>
+          <ion-label>Furnished</ion-label>
+          <ion-radio value="furnished"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Unfurnished</ion-label>
+          <ion-radio value="unfurnished"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+      <ion-item-divider color="light"></ion-item-divider>
+      <ion-item>
+        <ion-label color="primary">Total Floors</ion-label>
+        <ion-input type="number" placeholder="0" text-right></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="primary">Floor </ion-label>
+        <ion-input type="number" placeholder="0" text-right></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item>
+      <button ion-button clear item-left icon-left (click)="backToPropertyType()">  <ion-icon name="arrow-back"></ion-icon>  Back </button>
+    </ion-item>
+  </ion-card>
+
+</ion-content>
