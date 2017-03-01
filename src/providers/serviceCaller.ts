@@ -9,7 +9,7 @@ import 'rxjs/add/operator/retry';
 @Injectable()
 export class ServiceCaller {
     //url: string = "https://script.google.com/macros/s/AKfycbz2ZMnHuSR4GmTjsuIo6cmh433RRpPRH7TwMaJhbAUr/dev";
-    url: string = "http://localhost:54909";
+    url: string = "http://housevalueserver.azurewebsites.net";
 
     constructor(private http: Http) {
     }
