@@ -63,7 +63,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataContracts\HouseValueLibrary.csproj">
+    <ProjectReference Include="..\HouseValueLibrary\HouseValueLibrary.csproj">
       <Project>{23f91a0f-bd45-4589-8880-666cd6780af2}</Project>
       <Name>HouseValueLibrary</Name>
     </ProjectReference>

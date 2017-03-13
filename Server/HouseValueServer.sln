@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseValueServer", "HouseVa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleDatastore", "GoogleDatastore\GoogleDatastore.csproj", "{094265D5-6775-4ED9-B8F6-1DE6E6668FAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseValueLibrary", "DataContracts\HouseValueLibrary.csproj", "{23F91A0F-BD45-4589-8880-666CD6780AF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseValueLibrary", "HouseValueLibrary\HouseValueLibrary.csproj", "{23F91A0F-BD45-4589-8880-666CD6780AF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureExtraction", "FeatureExtraction\FeatureExtraction.csproj", "{6913489C-CA7E-46CD-A3E8-8AAFE4FADC41}"
 EndProject
