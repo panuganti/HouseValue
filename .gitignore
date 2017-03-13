@@ -12,6 +12,17 @@ log.txt
 .vscode/
 npm-debug.log*
 
+packages/
+**/obj
+**/bin
+**/wwwarchishainnovatorscom-eaed27291ff7.json
+.vs/
+Server/HouseValueServer/Properties/PublishProfiles/
+Server/HouseValueServer/apiKey.txt
+Server/HouseValueServer/HouseValueServer - Web Deploy.pubxml
+Server/HouseValueServer/HouseValueServer - Web Deploy.pubxml.user
+
+
 .idea/
 .sass-cache/
 .tmp/
