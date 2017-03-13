@@ -33,15 +33,19 @@ export class Estimate {
 
   estimate() {
     var property  = {
-        Bathrooms: 0,
-        Bedrooms: 0,
-        PlotSize: 0,
-        BuiltUpArea: 0,
-        YearConstructed: 1990,
         LatLng: {
           Lat: 0.0,
           Lng: 0.0
         },
+        YearConstructed: 1990,
+        BuiltUpArea: 0,
+        PlotSize: 0,
+        Bedrooms: 0,
+        Bathrooms: 0,
+        Pincode: '500027',
+        UnderConstruction: false,
+        FloorCount: 3,
+        FloorNumber: 1
     };
     // Check if required properties are there
     this.property = property;
@@ -194,6 +198,10 @@ export class Estimate {
 
   backToPropertyType() {
     this.showPropertyTypeCard = true;
+  }
+
+  format(est: number): string {
+      return est.toLocaleString('en-IN', { maximumFractionDigits: 0, style: 'currency', currency: 'INR' });
   }
 
   hideMap: boolean = true;
