@@ -170,7 +170,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="HouseValueServer - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -182,7 +181,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataContracts\HouseValueLibrary.csproj">
+    <ProjectReference Include="..\HouseValueLibrary\HouseValueLibrary.csproj">
       <Project>{23f91a0f-bd45-4589-8880-666cd6780af2}</Project>
       <Name>HouseValueLibrary</Name>
     </ProjectReference>
@@ -212,11 +211,4 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

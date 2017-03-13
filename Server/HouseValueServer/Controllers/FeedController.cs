@@ -1,17 +1,11 @@
 ﻿using HouseValueLibrary;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using HouseValueLibrary;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
-using System.IO;
 
 namespace HouseValueServer.Controllers
 {
