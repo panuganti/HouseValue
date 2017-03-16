@@ -2,7 +2,7 @@
   <ion-card *ngIf="showEstimate">
     <ion-label text-center> Estimate</ion-label>
     <ion-label text-center class="bigfont" *ngIf="est>0">
-      <span style='font-family:Arial;'>&#8377;</span> <span>{{format(est)}} </span>
+       <span>{{format(est)}} </span>
     </ion-label>
     <ion-label text-center *ngIf="est==0"> <i> (in progress) </i></ion-label>
   </ion-card>
