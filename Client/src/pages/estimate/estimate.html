@@ -1,4 +1,5 @@
 <ion-content>
+  <ion-grid fixed="70px">
   <ion-card *ngIf="showEstimate">
     <ion-label text-center> Estimate</ion-label>
     <ion-label text-center class="bigfont" *ngIf="est>0">
@@ -148,5 +149,5 @@
       <button ion-button clear item-left icon-left (click)="backToPropertyType()">  <ion-icon name="arrow-back"></ion-icon>  Back </button>
     </ion-item>
   </ion-card>
-
+  </ion-grid>
 </ion-content>
