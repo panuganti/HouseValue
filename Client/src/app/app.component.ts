@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
-import { Welcome } from '../pages/welcome/welcome';
 import { Estimate } from '../pages/estimate/estimate';
 
 
@@ -21,7 +20,6 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Welcome', component: Welcome },
       { title: 'Estimate', component: Estimate }
     ];
   }

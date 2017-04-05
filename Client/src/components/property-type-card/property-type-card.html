@@ -1,0 +1,29 @@
+<ion-card>
+  <ion-item-divider color="light">Type Of Residential Property</ion-item-divider>
+  <ion-list radio-group [(ngModel)]="type" (ionChange)="select()">
+    <ion-item>
+      <ion-label>Multistorey Apartment</ion-label>
+      <ion-radio value="multistoreyApartment"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Builder Floor Apartment</ion-label>
+      <ion-radio value="builderFloorApartment"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Residential House</ion-label>
+      <ion-radio value="residentialHouse"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Villa</ion-label>
+      <ion-radio value="villa"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Penthouse</ion-label>
+      <ion-radio value="penthouse"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Studio Apartment</ion-label>
+      <ion-radio value="studioApartment"></ion-radio>
+    </ion-item>
+  </ion-list>
+</ion-card>

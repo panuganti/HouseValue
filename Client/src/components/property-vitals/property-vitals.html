@@ -1,0 +1,57 @@
+<ion-card>
+  <ion-item-group>
+    <ion-item-divider color="light">Area</ion-item-divider>
+    <ion-item>
+      <ion-label color="dark">Lot Size</ion-label>
+      <ion-input type="text" [(ngModel)]="plotSize" text-right placeholder="0"></ion-input>
+      <ion-select item-right>
+        <ion-option selected>Sq. Ft</ion-option>
+        <ion-option>Sq. Yard</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="dark">Built-up Area</ion-label>
+      <ion-input type="text" [(ngModel)]="builtUpSize" text-right placeholder="0"></ion-input>
+      <ion-select item-right>
+        <ion-option selected>Sq. Ft</ion-option>
+        <ion-option>Sq. Yard</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item>
+      <ion-label color="dark"> Bedrooms </ion-label>
+      <ion-icon name="remove" item-right (click)="decBedrooms()"></ion-icon>
+      <ion-badge item-right>{{bedrooms}}</ion-badge>
+      <ion-icon name="add" item-right (click)="incBedrooms()"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label color="dark"> Bathrooms </ion-label>
+      <ion-icon name="remove" item-right (click)="decBathrooms()"></ion-icon>
+      <ion-badge item-right>{{bathrooms}}</ion-badge>
+      <ion-icon name="add" item-right (click)="incBathrooms()"></ion-icon>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-list radio-group [(ngModel)]="status" (ionChange)="emit()">
+      <ion-item-divider color="light">Construction Status</ion-item-divider>
+      <ion-item>
+        <ion-label>Ready to Move in</ion-label>
+        <ion-radio value="ready"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Under Construction</ion-label>
+        <ion-radio value="underConstruction"></ion-radio>
+      </ion-item>
+    </ion-list>
+
+    <ion-item>
+      <ion-label color="dark">Year of Construction</ion-label>
+      <ion-datetime displayFormat="YYYY" min="1970" max="2018" [(ngModel)]="year" (ionChange)="emit()">
+      </ion-datetime>
+    </ion-item>
+  </ion-item-group>
+</ion-card>

@@ -18,9 +18,7 @@ declare var google;
   templateUrl: 'estimate.html'
 })
 export class Estimate {
-  @ViewChild('map') mapElement: ElementRef;
-  map: google.maps.Map;
-  latLng: google.maps.LatLng;
+
   property: Property;
   propertyType: string;
   est: number = 0;
@@ -31,21 +29,134 @@ export class Estimate {
   builtUpSize: number = 0;
   status: string = 'ready';
 
+  constructor(public navCtrl: NavController, public navParams: NavParams, public service: ServiceCaller) {
+  }
+
+  ionViewDidLoad() {
+    // Set some defaults
+    this.property = {
+      LatLng: {
+        Lat: 0.0,
+        Lng: 0.0
+      },
+      YearConstructed: 1990,
+      BuiltUpArea: 0,
+      PlotSize: 0,
+      Bedrooms: 0,
+      Bathrooms: 0,
+      Pincode: '500027',
+      UnderConstruction: false,
+      FloorCount: 3,
+      FloorNumber: 1
+    };
+    let latLng = new google.maps.LatLng(-34.9290, 138.6010);
+    let mapOptions = { center: latLng, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+  }
+
+  prev() { 
+    if (this.show_map){
+      this.show_map = false;
+      this.show_pincode_card = true;
+    }
+    if (this.show_type_card) {
+      this.show_type_card = false;
+      this.show_map = true;
+    }
+  }
+
+  next() {
+    if (this.show_pincode_card) {
+      this.loadMapWithPincode(this.property.Pincode);
+    }
+    if (this.show_map) {
+      this.show_map = false;
+      this.show_type_card = true;
+    }
+    if (this.show_type_card) {
+      this.show_vitals_card = true;
+    }
+    if (this.show_vitals_card) {
+      this.show_vitals_card = false;
+      this.show_continue = false;
+    }
+  }
+
+  @ViewChild('map') mapElement: ElementRef;
+  map: google.maps.Map;
+  latLng: google.maps.LatLng;
+  show_pincode_card: boolean = true;
+  show_map: boolean = false;
+  show_continue: boolean = false;
+  show_type_card: boolean = false;
+  show_vitals_card: boolean = false;
+  show_estimate:boolean = true;
+
+  setLocation(ev) {
+    if (ev.type == "pincode") {
+      this.show_continue = true;
+      this.property.Pincode = ev.pincode;
+    }
+    else if (ev.type == "latlng") {
+      this.latLng = new google.maps.LatLng(ev.lat, ev.lng);
+      this.loadMapWithCoord(this.latLng);
+    }
+  }
+
+  loadMapWithPincode(pincode: string) {
+    var latLngResponse = this.service.getLatLong(pincode);
+    latLngResponse.toPromise().then((res) => {this.loadMapWithCoord(res.results[0].geometry.location);});
+  }
+
+  loadMapWithCoord(latlng: google.maps.LatLng) {
+    this.show_pincode_card = false;
+    this.show_map = true;
+    let mapOptions = { center: this.latLng, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
+    console.log(this.show_map);
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    var marker = new google.maps.Marker({
+      map: this.map,
+      position: this.latLng,
+      draggable: true,
+      animation: google.maps.Animation.DROP,
+      icon: { path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW, scale: 6 },
+    });
+    marker.addListener('dragend', function () {
+      this.latLng = marker.getPosition();
+    });
+    var infowindow = new google.maps.InfoWindow({ content: "Drag the marker to your house" });
+    infowindow.open(this.map, marker);
+    // TODO: Get Pincode from latlng
+  }
+
+  continue: string = 'Continue ';
+  back: string = 'Back';
+  showEstimate: boolean = true;
+  showPropertyTypeCard: boolean = false;
+  showContinueFromMap: boolean = false;
+  showAddressCard: boolean = true;
+  showCommercialPropertyType: boolean = false;
+  showAgriculturalPropertyType: boolean = false;
+  showAreaCard: boolean = false;
+  showAdditionalDetails: boolean = false;
+
+
+
   estimate() {
-    var property  = {
-        LatLng: {
-          Lat: 0.0,
-          Lng: 0.0
-        },
-        YearConstructed: 1990,
-        BuiltUpArea: 0,
-        PlotSize: 0,
-        Bedrooms: 0,
-        Bathrooms: 0,
-        Pincode: '500027',
-        UnderConstruction: false,
-        FloorCount: 3,
-        FloorNumber: 1
+    var property = {
+      LatLng: {
+        Lat: 0.0,
+        Lng: 0.0
+      },
+      YearConstructed: 1990,
+      BuiltUpArea: 0,
+      PlotSize: 0,
+      Bedrooms: 0,
+      Bathrooms: 0,
+      Pincode: '500027',
+      UnderConstruction: false,
+      FloorCount: 3,
+      FloorNumber: 1
     };
     // Check if required properties are there
     this.property = property;
@@ -57,65 +168,16 @@ export class Estimate {
     this.service.getEstimate(this.property).toPromise().then(res => this.est = res);
   }
 
-  continueForAccuracy() {
+
+  getPropertyValue() {
     this.estimate();
     this.showAreaCard = false;
     this.showEstimate = true;
-    this.showAdditionalDetails = true;
-  }
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public service: ServiceCaller) {
   }
 
   onCancel(event) {
   }
 
-  onInput(event) {
-    if (this.address.length == 6) {
-      this.loadMap();
-    }
-  }
-
-  getCurrentLocation() {
-    if (navigator.geolocation) {
-      let self = this;
-      navigator.geolocation.getCurrentPosition(function (position) {
-        self.loadMapWithCoord(position, self);
-      });
-    }
-    else {
-      console.log('not supported');
-    }
-  }
-
-  loadMapWithCoord(position, self) {
-    this.hideMap = false;
-    let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    let mapOptions = { center: latLng, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
-    self.map = new google.maps.Map(self.mapElement.nativeElement, mapOptions);
-    var marker = new google.maps.Marker({
-      map: this.map,
-      position: latLng,
-      draggable: true,
-      animation: google.maps.Animation.DROP,
-      icon: { path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW, scale: 6 },
-    });
-    marker.addListener('dragend', function () {
-      self.latLng = marker.getPosition();
-      console.log(self.latLng);
-    });
-    self.showContinueFromMap = true;
-    self.latLng = latLng;
-  }
-
-  loadMap() {
-    let latLng = new google.maps.LatLng(-34.9290, 138.6010);
-    let mapOptions = { center: latLng, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    this.getLatLang();
-    this.hideMap = false;
-    this.showContinueFromMap = true;
-  }
 
   /*
     p: (width: any) => Observable<string> = function (width) {
@@ -129,52 +191,10 @@ export class Estimate {
     }
   */
 
-  incBedrooms() {
-    this.bedrooms++;
-  }
-
-  decBedrooms() {
-    if (this.bedrooms > 0) {
-      this.bedrooms--;
-    }
-  }
-
-  incBathrooms() {
-    this.bathrooms++;
-  }
-
-  decBathrooms() {
-    if (this.bathrooms > 0) {
-      this.bathrooms--;
-    }
-  }
-
-
   propertySelection(event, item) {
   }
 
-  getLatLang() {
-    this.hideMap = false;
-    var latLngResponse = this.service.getLatLong(this.address);
-    latLngResponse.toPromise().then(res => {
-      this.map.setCenter(res.results[0].geometry.location);
-      var marker = new google.maps.Marker({
-        map: this.map,
-        position: res.results[0].geometry.location,
-        draggable: true,
-        animation: google.maps.Animation.DROP,
-        icon: { path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW, scale: 6 },
-      });
-      marker.addListener('dragend', function () {
-        this.latLng = marker.getPosition();
-      });
-      var infowindow = new google.maps.InfoWindow({ content: "Drag the marker to your house" });
-      infowindow.open(this.map, marker);
-    });
-  }
-
   continueFromMap() {
-    this.hideMap = true;
     this.showAddressCard = false;
     this.showPropertyTypeCard = true;
   }
@@ -201,18 +221,20 @@ export class Estimate {
   }
 
   format(est: number): string {
-      return est.toLocaleString('en-IN', { maximumFractionDigits: 0, style: 'currency', currency: 'INR' });
+    return est.toLocaleString('en-IN', { maximumFractionDigits: 0, style: 'currency', currency: 'INR' });
   }
 
-  hideMap: boolean = true;
-  showEstimate: boolean = true;
-  showPropertyTypeCard: boolean = false;
-  showContinueFromMap: boolean = false;
-  showAddressCard: boolean = true;
-  showCommercialPropertyType: boolean = false;
-  showAgriculturalPropertyType: boolean = false;
-  showAreaCard: boolean = false;
-  showAdditionalDetails: boolean = false;
+  propertyTypeSelected(ev) {
+    this.propertyType = ev;
+  }
 
-  city: string;
+  updateVitals(ev) {
+    this.property.PlotSize = ev.plotSize;
+    this.property.BuiltUpArea = ev.builtUpSize;
+    this.property.Bedrooms = ev.bedrooms;
+    this.property.Bathrooms = ev.bathrooms;
+    this.property.UnderConstruction = (ev.status == 'Under Construction');
+    this.property.YearConstructed = ev.year;
+  }
+
 }

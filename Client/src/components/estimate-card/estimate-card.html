@@ -1,0 +1,8 @@
+<ion-card>
+  <ion-item-divider color="light" text-center>Estimate</ion-item-divider>
+  <ion-label text-center class="bigfont" *ngIf="est>0">
+    <span>{{format(estimate)}} </span>
+  </ion-label>
+  <ion-label text-center *ngIf="est==0"> <i> (in progress) </i></ion-label>
+  <progress value={{pValue}} max="6" style="width:100%" padding> </progress>
+</ion-card>
