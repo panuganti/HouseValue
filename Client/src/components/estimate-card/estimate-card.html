@@ -1,0 +1,7 @@
+<ion-card>
+  <ion-item-divider color="light" text-center>Estimate</ion-item-divider>
+  <ion-label text-center class="bigfont" *ngIf="estimate>0">
+    <span>{{format(estimate)}} Lacs </span>
+  </ion-label>
+  <progress  max="100" *ngIf="estimate==0" style="width:100%" padding> </progress>
+</ion-card>

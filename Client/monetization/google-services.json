@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "571117799955",
+    "firebase_url": "https://housevalue-141cf.firebaseio.com",
+    "project_id": "housevalue-141cf",
+    "storage_bucket": "housevalue-141cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571117799955:android:52dd731696b2e96d",
+        "android_client_info": {
+          "package_name": "com.ionicframework.housevalue267903"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571117799955-afcptjm8r960tdvcg0843g5e4fubcgg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsew4V9VA3t0pRr3CwoIqzK_ESsEpNQHo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

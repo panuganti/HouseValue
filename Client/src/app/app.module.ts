@@ -1,17 +1,28 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, enableProdMode } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { Welcome } from '../pages/welcome/welcome';
 import { Estimate } from '../pages/estimate/estimate';
 import '../utils/rxjs-extension';
 
-
+// Import All Components
+import {EstimateCardComponent} from '../components/estimate-card/estimate-card';
+import { MapComponent } from '../components/map/map';
+import { PincodeCardComponent } from '../components/pincode-card/pincode-card';
+import { PropertyTypeCardComponent } from '../components/property-type-card/property-type-card';
+import { PropertyVitalsComponent } from '../components/property-vitals/property-vitals';
+import { ProgressCardComponent } from '../components/progress-card/progress-card';
+enableProdMode();
 
 @NgModule({
   declarations: [
     MyApp,
-    Welcome,
     Estimate,
+    EstimateCardComponent,
+    MapComponent,
+    PincodeCardComponent,
+    PropertyTypeCardComponent,
+    PropertyVitalsComponent,
+    ProgressCardComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -19,8 +30,13 @@ import '../utils/rxjs-extension';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    Welcome,
     Estimate,
+    EstimateCardComponent,
+    MapComponent,
+    PincodeCardComponent,
+    PropertyTypeCardComponent,
+    PropertyVitalsComponent,
+    ProgressCardComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
