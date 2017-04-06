@@ -22,7 +22,7 @@ export class PincodeCardComponent {
   }
 
   useGeo() {
-    this.location.emit({ lat: this.coords.latitude, lng: this.coords.longitude, pincode: "", type: "latlng" });
+    this.location.emit({ lat: this.coords.lat, lng: this.coords.lng, pincode: "", type: "latlng" });
   }
 
   ngOnInit() {

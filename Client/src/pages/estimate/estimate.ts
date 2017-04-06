@@ -20,19 +20,20 @@ export class Estimate {
   @ViewChild('map') mapElement: ElementRef;
   map: google.maps.Map;
   latLng: google.maps.LatLng;
+  marker: google.maps.Marker;
   show_pincode_card: boolean = true;
-  show_map: boolean = false;
+  show_map: boolean = true;
   show_continue: boolean = false;
   show_type_card: boolean = false;
   show_vitals_card: boolean = false;
   show_estimate: boolean = false;
   step: number = 1;
   pincode: string = '';
-  nextDisabled: boolean = false;
+  next_disabled: boolean = false;
   plot_size: number;
   builtup_size: number;
   construction_status: boolean;
-  year:number;
+  year: number;
   est: number = 0;
   continue: string = 'Continue ';
   back: string = 'Back';
@@ -51,14 +52,64 @@ export class Estimate {
   }
 
   setDefaultMap() {
-    let latLng = new google.maps.LatLng(-34.9290, 138.6010);
+    let latLng = new google.maps.LatLng(19.06, 72.85);
     let mapOptions = { center: latLng, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
+  setLocation(ev) {
+    if (ev.type == "pincode") {
+      this.show_continue = true;
+      this.pincode = ev.pincode;
+      this.loadMapWithPincode(this.pincode);
+    }
+    else if (ev.type == "latlng") {
+      this.show_continue = true;
+      this.moveToMap();
+      this.latLng = new google.maps.LatLng(ev.lat, ev.lng);
+      this.map.setCenter(this.latLng);
+      this.addMarker(this.latLng);
+    }
+  }
+
+  loadMapWithPincode(pincode: string) {
+    var latLngResponse = this.service.getLatLong(pincode);
+    latLngResponse.toPromise().then((res) => { 
+      this.latLng = res.results[0].geometry.location;
+      this.map.setCenter(this.latLng);
+      this.addMarker(this.latLng);
+    });
+  }
+
+  moveToMap() {
+      this.show_pincode_card = false;
+      this.show_map = true;
+      this.step++;
+  }
+
+
+  addMarker(latlng: google.maps.LatLng) {
+    this.marker = new google.maps.Marker({
+      map: this.map,
+      position: latlng,
+      draggable: true,
+      animation: google.maps.Animation.DROP,
+      icon: { path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW, scale: 6 },
+    });
+    this.marker.addListener('dragend', () => {
+      this.latLng = this.marker.getPosition();
+    });
+    var infowindow = new google.maps.InfoWindow({ content: "Drag the marker to your house" });
+    infowindow.open(this.map, this.marker);
+  }
+
+  removeMarker() {
+    this.marker.setMap(null);
+  }
+
   getDefaultProperty(): any {
     return {
-      LatLng: { Lat: 0.0, Lng: 0.0},
+      LatLng: { Lat: 0.0, Lng: 0.0 },
       YearConstructed: 1990,
       BuiltUpArea: 0,
       PlotSize: 0,
@@ -76,10 +127,12 @@ export class Estimate {
     this.show_pincode_card = true;
     this.show_estimate = false;
     this.pincode = '';
+    this.next_disabled = false;
+    this.removeMarker();
   }
 
   prev() {
-    this.nextDisabled = false;
+    this.next_disabled = false;
     if (this.show_map) {
       this.show_map = false;
       this.show_pincode_card = true;
@@ -104,25 +157,25 @@ export class Estimate {
 
   next() {
     if (this.show_pincode_card) {
-      this.loadMapWithPincode(this.property.Pincode);
-      this.step++;
+      this.moveToMap();
+      this.next();
     }
-    if (this.show_map) {
+    else if (this.show_map) {
       this.show_map = false;
       this.show_type_card = true;
-      this.nextDisabled = true;
+      this.next_disabled = true;
       this.step++;
     }
     else if (this.show_type_card) {
       this.show_type_card = false;
       this.show_vitals_card = true;
-      this.nextDisabled = true;
+      this.next_disabled = true;
       this.step++;
     }
     else if (this.show_vitals_card) {
       this.show_vitals_card = false;
       this.show_continue = false;
-      this.nextDisabled = true;
+      this.next_disabled = true;
       this.step++;
       this.show_estimate = true;
       this.estimate();
@@ -132,7 +185,7 @@ export class Estimate {
   propertyTypeSelected(ev) {
     this.property_type = ev;
     if (this.property_type != null) {
-      this.nextDisabled = false;
+      this.next_disabled = false;
     }
   }
 
@@ -143,7 +196,7 @@ export class Estimate {
     this.property.PlotSize = this.plot_size;
     this.property.BuiltUpArea = this.builtup_size;
     this.property.YearConstructed = this.year;
-    this.service.getEstimate(this.property).toPromise().then(res => {this.est = res;});
+    this.service.getEstimate(this.property).toPromise().then(res => { this.est = res; });
   }
 
   updateVitals(ev) {
@@ -154,47 +207,10 @@ export class Estimate {
     this.construction_status = (ev.status == 'ready');
     this.year = ev.year;
     if (this.construction_status && this.plot_size > 0
-         && this.builtup_size > 0 && this.bedrooms > 0 
-         && this.bathrooms > 0) {
-      this.nextDisabled = false;
+      && this.builtup_size > 0 && this.bedrooms > 0
+      && this.bathrooms > 0) {
+      this.next_disabled = false;
     }
-  }
-
-  setLocation(ev) {
-    if (ev.type == "pincode") {
-      this.show_continue = true;
-      this.pincode = ev.pincode;
-    }
-    else if (ev.type == "latlng") {
-      this.latLng = new google.maps.LatLng(ev.lat, ev.lng);
-      this.loadMapWithCoord(this.latLng, this);
-    }
-  }
-
-  loadMapWithPincode(pincode: string) {
-    var latLngResponse = this.service.getLatLong(pincode);
-    latLngResponse.toPromise().then((res) => { this.loadMapWithCoord(res.results[0].geometry.location, this); });
-  }
-
-  loadMapWithCoord(latlng: google.maps.LatLng, self) {
-    self.show_pincode_card = false;
-    self.show_map = true;
-    let mapOptions = { center: self.latLng, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
-    console.log(this.mapElement.nativeElement);
-    self.map = new google.maps.Map(self.mapElement.nativeElement, mapOptions);
-    var marker = new google.maps.Marker({
-      map: this.map,
-      position: self.latLng,
-      draggable: true,
-      animation: google.maps.Animation.DROP,
-      icon: { path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW, scale: 6 },
-    });
-    marker.addListener('dragend', function () {
-      self.latLng = marker.getPosition();
-    });
-    var infowindow = new google.maps.InfoWindow({ content: "Drag the marker to your house" });
-    infowindow.open(self.map, marker);
-    // TODO: Get Pincode from latlng
   }
 
   /*

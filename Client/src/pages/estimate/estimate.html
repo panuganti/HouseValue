@@ -9,7 +9,7 @@
     <ion-list no-lines>
       <ion-item>
         <button item-left ion-button outline padding (click)="prev()" *ngIf="!show_pincode_card && show_continue"> {{back}} </button>
-        <button item-right ion-button outline padding class="fadeInLeftBig animated" (click)="next()" *ngIf="show_continue" [disabled]="nextDisabled"> {{continue}}  </button>
+        <button item-right ion-button outline padding class="fadeInLeftBig animated" (click)="next()" *ngIf="show_continue" [disabled]="next_disabled"> {{continue}}  </button>
       </ion-item>
     </ion-list>
     <ion-card>
