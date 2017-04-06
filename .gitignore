@@ -25,7 +25,7 @@ Server/HouseValueServer/HouseValueServer - Web Deploy.pubxml.user
 Client/HouseValue.apk
 Client/functions/
 Client/my-release-key.keystore
-
+Client/api.key.txt
 
 .idea/
 .sass-cache/
