@@ -3,19 +3,17 @@
     <ion-item-divider color="light">Area</ion-item-divider>
     <ion-item>
       <ion-label color="dark">Lot Size</ion-label>
-      <ion-input type="text" [(ngModel)]="plotSize" text-right placeholder="0"></ion-input>
+      <ion-input type="text" [(ngModel)]="plotSize" text-right placeholder="0" (change)="emit()"></ion-input>
       <ion-select item-right>
         <ion-option selected>Sq. Ft</ion-option>
-        <ion-option>Sq. Yard</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label color="dark">Built-up Area</ion-label>
-      <ion-input type="text" [(ngModel)]="builtUpSize" text-right placeholder="0"></ion-input>
+      <ion-input type="text" [(ngModel)]="builtUpSize" text-right placeholder="0" (change)="emit()"></ion-input>
       <ion-select item-right>
         <ion-option selected>Sq. Ft</ion-option>
-        <ion-option>Sq. Yard</ion-option>
       </ion-select>
     </ion-item>
   </ion-item-group>
@@ -47,8 +45,7 @@
         <ion-radio value="underConstruction"></ion-radio>
       </ion-item>
     </ion-list>
-
-    <ion-item>
+    <ion-item *ngIf="status=='ready'">
       <ion-label color="dark">Year of Construction</ion-label>
       <ion-datetime displayFormat="YYYY" min="1970" max="2018" [(ngModel)]="year" (ionChange)="emit()">
       </ion-datetime>

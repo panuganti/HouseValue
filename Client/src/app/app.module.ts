@@ -10,6 +10,7 @@ import { MapComponent } from '../components/map/map';
 import { PincodeCardComponent } from '../components/pincode-card/pincode-card';
 import { PropertyTypeCardComponent } from '../components/property-type-card/property-type-card';
 import { PropertyVitalsComponent } from '../components/property-vitals/property-vitals';
+import { ProgressCardComponent } from '../components/progress-card/progress-card';
 enableProdMode();
 
 @NgModule({
@@ -20,7 +21,8 @@ enableProdMode();
     MapComponent,
     PincodeCardComponent,
     PropertyTypeCardComponent,
-    PropertyVitalsComponent
+    PropertyVitalsComponent,
+    ProgressCardComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -33,7 +35,8 @@ enableProdMode();
     MapComponent,
     PincodeCardComponent,
     PropertyTypeCardComponent,
-    PropertyVitalsComponent
+    PropertyVitalsComponent,
+    ProgressCardComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

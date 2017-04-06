@@ -1,15 +1,19 @@
 <ion-content>
   <ion-grid fixed="70px">
-    <estimate-card *ngIf="show_estimate" estimate="est"> </estimate-card>
-    <pincode-card *ngIf="show_pincode_card" (location)="setLocation($event)"> </pincode-card>
+    <estimate-card *ngIf="show_estimate"  estimate="{{est}}"> </estimate-card>
+    <progress-card *ngIf="!show_estimate" step="{{step}}"> </progress-card>
+    <pincode-card *ngIf="show_pincode_card" pincode="{{pincode}}" (location)="setLocation($event)"> </pincode-card>
     <div #map id="map" class="map" [hidden]="!show_map"></div>
     <property-type-card *ngIf="show_type_card" (propertyType)="propertyTypeSelected($event)"> </property-type-card>
     <property-vitals *ngIf="show_vitals_card" (vitals)="updateVitals($event)"> </property-vitals>
     <ion-list no-lines>
       <ion-item>
-        <button item-left ion-button outline padding (click)="prev()" *ngIf="!show_pincode_card"> {{back}} </button>
-        <button item-right ion-button outline padding (click)="next()" *ngIf="show_continue"> {{continue}}  </button>
+        <button item-left ion-button outline padding (click)="prev()" *ngIf="!show_pincode_card && show_continue"> {{back}} </button>
+        <button item-right ion-button outline padding class="fadeInLeftBig animated" (click)="next()" *ngIf="show_continue" [disabled]="nextDisabled"> {{continue}}  </button>
       </ion-item>
     </ion-list>
+    <ion-card>
+      <button ion-button block (click)="restart()" *ngIf="show_estimate && est>0" color="secondary"> Get Estimate for Another Property </button>
+    </ion-card>
   </ion-grid>
 </ion-content>

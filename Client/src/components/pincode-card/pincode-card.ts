@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Input, Component, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -10,7 +10,7 @@ export class PincodeCardComponent {
 
   isGeoSupported: boolean = true;
   coords: any;
-  pincode: string = '';
+  @Input() pincode: string;
   constructor() {
   }
 
@@ -18,6 +18,7 @@ export class PincodeCardComponent {
     if (this.pincode.length == 6) {
       this.location.emit({ lat: "", lng: "", pincode: this.pincode, type: "pincode" });
     }
+    // TODO: hide continue button if changed.
   }
 
   useGeo() {
@@ -28,11 +29,17 @@ export class PincodeCardComponent {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.coords = { lat: position.coords.latitude, lng: position.coords.longitude };
-      });
+      }, 
+      (error) => {this.isGeoSupported = false; });
     }
     else {
+      // will never hit
       this.isGeoSupported = false;
     }
+  }
+
+  onCancel(event) {
+    this.pincode = '';
   }
 
 }

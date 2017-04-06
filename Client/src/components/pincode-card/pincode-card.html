@@ -1,8 +1,7 @@
 <ion-card>
   <ion-item-divider color="light">Location</ion-item-divider>
   <ion-card-content>
-    <ion-searchbar [(ngModel)]="pincode" placeholder="Enter Your Pincode" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)"
-      (ionCancel)="onCancel($event)">
+    <ion-searchbar [(ngModel)]="pincode" placeholder="Enter Your Pincode" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
     </ion-searchbar>
     <button ion-button outline block *ngIf="isGeoSupported" (click)="useGeo()"> Use My Current Location <ion-icon name="locate" padding margin></ion-icon>  </button>
   </ion-card-content>

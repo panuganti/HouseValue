@@ -7,10 +7,10 @@ import { Output, EventEmitter, Component } from '@angular/core';
 export class PropertyVitalsComponent {
   plotSize: string;
   builtUpSize: string;
-  bedrooms: number;
-  bathrooms: number;
+  bedrooms: number = 0;
+  bathrooms: number = 0;
   status: string;
-  year: string;
+  year: string = '2017';
 
   @Output() vitals: EventEmitter<any> = new EventEmitter<any>();
 

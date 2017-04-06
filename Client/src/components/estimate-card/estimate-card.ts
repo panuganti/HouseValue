@@ -1,17 +1,18 @@
 import { Input, Component } from '@angular/core';
+
 @Component({
   selector: 'estimate-card',
   templateUrl: 'estimate-card.html'
 })
 export class EstimateCardComponent {
-@Input() estimate: string;
-pValue: number = 1;
+@Input() estimate: number;
 
   constructor() {
   }
 
   format(estimate: number): string {
-      return estimate.toLocaleString('en-IN', { maximumFractionDigits: 0, style: 'currency', currency: 'INR' });
+      var lacs = estimate/100000;
+      return lacs.toLocaleString('en-IN', { maximumFractionDigits: 2, style: 'currency', currency: 'INR' });
   }
 
 }
