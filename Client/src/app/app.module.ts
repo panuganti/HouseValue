@@ -5,7 +5,7 @@ import { Estimate } from '../pages/estimate/estimate';
 import '../utils/rxjs-extension';
 
 // Import All Components
-import {EstimateCardComponent} from '../components/estimate-card/estimate-card';
+import { EstimateCardComponent } from '../components/estimate-card/estimate-card';
 import { MapComponent } from '../components/map/map';
 import { PincodeCardComponent } from '../components/pincode-card/pincode-card';
 import { PropertyTypeCardComponent } from '../components/property-type-card/property-type-card';
