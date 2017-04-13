@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { EstimatePage } from '../pages/estimate/estimate';
@@ -9,11 +9,7 @@ import { EstimatePage } from '../pages/estimate/estimate';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  @ViewChild(Nav) nav: Nav;
-
   rootPage: any = EstimatePage;
-
-  pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform) {
     this.platform.ready().then(() => {
