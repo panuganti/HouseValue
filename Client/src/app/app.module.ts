@@ -2,7 +2,6 @@ import { NgModule, ErrorHandler, enableProdMode } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { EstimatePage } from '../pages/estimate/estimate';
-import { CodePushPage } from '../pages/code-push/code-push';
 import { CodePush, SyncStatus } from '@ionic-native/code-push';
 
 import '../utils/rxjs-extension';
@@ -27,8 +26,7 @@ enableProdMode();
     PropertyTypeCardComponent,
     PropertyVitalsComponent,
     ProgressCardComponent,
-    CodePushComponent,
-    CodePushPage
+    CodePushComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -43,8 +41,7 @@ enableProdMode();
     PropertyTypeCardComponent,
     PropertyVitalsComponent,
     ProgressCardComponent,
-    CodePushComponent,
-    CodePushPage
+    CodePushComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, CodePush]
 })

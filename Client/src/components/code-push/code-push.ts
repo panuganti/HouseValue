@@ -14,6 +14,7 @@ export class CodePushComponent {
   }
 
   ngOnInit() {
+    if (!this.platform.is('cordova')) { return;}
     this.platform.ready().then(() => {
       this.codepush.sync().subscribe((syncStatus) => {
         if (syncStatus == SyncStatus.UP_TO_DATE) {
