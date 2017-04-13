@@ -4,7 +4,6 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { ServiceCaller } from '../../providers/servicecaller';
-//import { Observable } from 'rxjs/Observable';
 
 import '../../utils/rxjs-extension';
 import { Property } from '../../models/Property';
@@ -16,7 +15,7 @@ declare var google;
   providers: [ServiceCaller],
   templateUrl: 'estimate.html'
 })
-export class Estimate {
+export class EstimatePage {
   @ViewChild('map') mapElement: ElementRef;
   map: google.maps.Map;
   latLng: google.maps.LatLng;

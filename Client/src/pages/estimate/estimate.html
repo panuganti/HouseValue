@@ -1,5 +1,6 @@
 <ion-content>
   <ion-grid fixed="70px">
+    <code-push> </code-push>
     <estimate-card *ngIf="show_estimate"  estimate="{{est}}"> </estimate-card>
     <progress-card *ngIf="!show_estimate" step="{{step}}"> </progress-card>
     <pincode-card *ngIf="show_pincode_card" pincode="{{pincode}}" (location)="setLocation($event)"> </pincode-card>
