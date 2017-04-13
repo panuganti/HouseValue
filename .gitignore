@@ -44,7 +44,7 @@ plugins/ios.json
 www/
 $RECYCLE.BIN/
 
-resources/
+#resources/
 
 .DS_Store
 Thumbs.db
