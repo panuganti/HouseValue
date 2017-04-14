@@ -3,6 +3,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { EstimatePage } from '../pages/estimate/estimate';
 import { CodePush, SyncStatus } from '@ionic-native/code-push';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 import '../utils/rxjs-extension';
 
@@ -43,6 +45,6 @@ enableProdMode();
     ProgressCardComponent,
     CodePushComponent
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, CodePush]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, CodePush, StatusBar, SplashScreen]
 })
 export class AppModule {}
