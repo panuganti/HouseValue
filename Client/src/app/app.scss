@@ -15,10 +15,235 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-.pull-right {
-  float: right;
-}
+// http://ionicframework.com/docs/v2/theming/
+// App Shared Imports
+// --------------------------------------------------
+// These are the imports which make up the design of this app.
+// By default each design mode includes these shared imports.
+// App Shared Sass variables belong in app.variables.scss.
+
+// global styles
 
 .pull-left {
   float: left;
 }
+
+.pull-right {
+  float: right;
+}
+
+.card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3)
+}
+
+    .menu-bg {
+        background: url("../assets/img/head-bg.png");
+        background-size: 100% auto;
+    }
+    .profile-picture {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        vertical-align: center;
+    }
+    ion-list.list-full-border {
+        @extend .list-no-border;
+
+        .item,
+        .item:first-child,
+        .item:last-child {
+            border-bottom: 1px solid color($colors, bgColor);
+        }
+    }
+
+.list-no-border, ion-list.list-no-border {
+
+  .item:first-child {
+    border: none;
+  }
+  .item:last-child {
+    border: none;
+  }
+
+  .item-block {
+
+    .item-inner {
+      border: none;
+    }
+  }
+}
+
+
+/*
+.primary-bg {
+  background-color: color($colors, primary);
+}
+.secondary-bg {
+  background-color: color($colors, secondary);
+}
+
+.gray-bg {
+  background-color: color($colors, gray);
+}
+
+.light-bg {
+  background-color: color($colors, light);
+}
+
+.common-bg {
+  background-color: color($colors, bgColor);
+}
+
+.padding-xs {
+  padding: 10px;
+}
+
+.round {
+  border-radius: 3px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.align-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+
+.rlt {
+  position: relative;
+}
+
+// text size
+.text-lg {
+  font-size: 1.2em;
+}
+
+.text-sm {
+  font-size: 0.8em;
+}
+
+// other size
+button.align-left {
+  .button-inner {
+    justify-content: flex-start;
+  }
+}
+
+.card {
+  border-radius: 2px;
+  font-size: 1.4rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+ion-list {
+
+  .item, .item:first-child {
+    border-color: color($colors, bgColor);
+
+    .item-inner {
+      border-color: color($colors, bgColor);
+    }
+  }
+}
+
+
+.list-ios[no-margin],
+.list-md[no-margin],
+.list-wp[no-margin] {
+  margin: 0;
+}
+
+.item.no-border {
+
+  .item-inner {
+    border: none;
+  }
+}
+
+.border-bottom {
+  border-bottom: 1px solid color($colors, bgColor);
+}
+
+.clear {
+  clear: both;
+}
+
+.grid-no-padding {
+
+  padding: 0;
+
+  ion-col:first-child {
+    padding-left: 0;
+  }
+
+  ion-col:last-child {
+    padding-right: 0;
+  }
+}
+
+.list-form {
+  .item {
+    padding-left: 0;
+    margin-top: 16px;
+  }
+
+  .item:first-child {
+    border-top: 0;
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.text-decoration {
+  text-decoration: line-through;
+}
+
+// slide style
+.swiper-pagination-bullet {
+  background: color($colors, light);
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: color($colors, primary);
+}
+
+// list item
+.list-cards {
+
+  ion-row {
+    flex-wrap: wrap;
+
+    ion-col {
+      padding: 6px;
+    }
+  }
+}
+
+// grid style
+.grid[no-padding] {
+
+  .row {
+
+    .col {
+      padding: 5px;
+      padding-left: 0;
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+}
+*/
