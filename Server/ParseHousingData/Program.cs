@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Xml.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using HouseValueLibrary;
+// ReSharper disable AssignNullToNotNullAttribute
 
 namespace ParseHousingData
 {
@@ -19,8 +21,150 @@ namespace ParseHousingData
         static void Main(string[] args)
         {
             string housingDir = @"F:\OldComputer\E\NMW\DataScraping\HousingData\ScrapingHousingData\ScrapingHousingData\HousingSaleData";
-            string outputDir = @"F:\GitHub\HouseValueServer\Data\Housing";
-            ParseHousingData(housingDir, outputDir);
+            string outputfile = @"F:\GitHub\HouseValue\Server\Data\housing.tsv";
+            GenerateHousingTsv(housingDir, outputfile);
+        }
+
+        private static void GenerateHousingTsv(string inputDir, string outfile)
+        {
+            var files = Directory.GetFiles(inputDir).OrderBy(f => int.Parse(Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f)))).ToArray();
+            var writer = new StreamWriter(outfile);
+            writer.WriteLine(string.Join("\t", new[]
+                {
+                    "id",
+                    "latitude",
+                    "longitude",
+                    "center_point_latitude",
+                    "center_point_longitude",
+                    "street_info",
+                    "locality",
+                    "price",
+                    "per_square_feet_rate",
+                    "floor_count",
+                    "floor_number",
+                    "apartment_type",
+                    "property_type",
+                    "date_added",
+                    "age_of_property",
+                    "age_of_property_date",
+                    "under_construction",
+                    "built_up_area",
+                    "bedroom_count",
+                    "bathroom_count",
+                    "is_price_negotiable",
+                    "has_swimming_pool",
+                    "has_gym",
+                    "number_of_lifts",
+                    "parking_count",
+                    "seo_address_tags",
+                    "seo_title",
+                    "main_entrance_facing",
+                    "region_name",
+                    "city_id",
+                    "has_gas_pipeline",
+                    "water_supply_type",
+                    "has_servant_room",
+                    "power_backup_type",
+                    "is_gated_community",
+                    "security_type",
+                    "is_society_formed",
+                    "lifestyle_rating",
+                    "lifestyle_rating",
+                    "society_rating",
+                    "location_rating",
+                    "lifestyle_rating_type",
+                    "connectivity_score",
+                    "location_score",
+                    "peripheral_score",
+                    "locality_type",
+                    "society_type",
+                    "poshness_index",
+                    "city_name",
+                    "brokers.number",
+                    "main_entrance_facing",
+                    "contact_persons.number",
+                    "contact_persons.original_number",
+                    "contact_persons.profile_type",
+                    "owner_type",
+                    "contact_person_type",
+                    "hestimate.label",
+                    "hestimate.value"
+                }));
+
+            foreach (var file in files)
+            {
+                var id = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file));
+                Console.WriteLine("Processing {0}", id);
+                var housingJson = File.ReadAllText(file);
+                var housing = JsonConvert.DeserializeObject<Housing>(housingJson);
+                if (housing?.result == null)
+                {
+                    Console.WriteLine("Skipping {0}", id); continue;
+                }
+
+                writer.WriteLine(string.Join("\t", new []
+                {                    
+                    housing.result.id,
+                    housing.result.latitude,
+                    housing.result.longitude,
+                    housing.result.center_point_latitude,
+                    housing.result.center_point_longitude,
+                    housing.result.street_info,
+                    housing.result.locality,
+                    housing.result.price,
+                    housing.result.per_square_feet_rate,
+                    housing.result.floor_count,
+                    housing.result.floor_number,
+                    housing.result.apartment_type,
+                    housing.result.property_type,
+                    housing.result.date_added,
+                    housing.result.age_of_property,
+                    housing.result.age_of_property_date,
+                    housing.result.under_construction,
+                    housing.result.built_up_area,
+                    housing.result.bedroom_count,
+                    housing.result.bathroom_count,
+                    housing.result.is_price_negotiable,
+                    housing.result.has_swimming_pool,
+                    housing.result.has_gym,
+                    housing.result.number_of_lifts,
+                    housing.result.parking_count,
+                    housing.result.seo_address_tags == null ? "" : string.Join(",",housing.result.seo_address_tags),                    
+                    housing.result.seo_title,
+                    housing.result.main_entrance_facing,
+                    housing.result.region_name,
+                    housing.result.city_id,
+                    housing.result.has_gas_pipeline,
+                    housing.result.water_supply_type ?? "99",
+                    housing.result.has_servant_room,
+                    housing.result.power_backup_type ?? "",
+                    housing.result.is_gated_community,
+                    housing.result.security_type,
+                    housing.result.is_society_formed ?? "",
+                    housing.result.lifestyle_rating,
+                    housing.result.lifestyle_fields?.lifestyle_rating.ToString() ?? "",
+                    housing.result.lifestyle_fields?.society_rating.ToString(CultureInfo.InvariantCulture) ?? "",
+                    housing.result.lifestyle_fields?.location_rating.ToString(CultureInfo.InvariantCulture) ?? "",
+                    housing.result.lifestyle_fields == null ? "" : housing.result.lifestyle_fields.lifestyle_rating_type,
+                    housing.result.lifestyle_fields?.connectivity_score.ToString(CultureInfo.InvariantCulture) ?? "",
+                    housing.result.lifestyle_fields?.location_score.ToString(CultureInfo.InvariantCulture) ?? "",
+                    housing.result.lifestyle_fields?.peripheral_score.ToString(CultureInfo.InvariantCulture) ?? "",
+                    housing.result.lifestyle_fields == null ? "" : housing.result.lifestyle_fields.locality_type,
+                    housing.result.lifestyle_fields == null ? "" : housing.result.lifestyle_fields.society_type,
+                    housing.result.lifestyle_fields == null ? "" : housing.result.lifestyle_fields.poshness_index ?? "",
+                    housing.result.city_name,
+                    housing.result.brokers.Any(b => b.number != null ) ? string.Join(",",housing.result.brokers.Where(b => b.number != null).SelectMany(b => b.number).ToArray()) : "",
+                    housing.result.main_entrance_facing,
+                    housing.result.contact_persons.Any(b => b.number != null) ?  string.Join(",",housing.result.contact_persons.Where(b => b.number != null).Select(b => b.number)) : "",
+                    housing.result.contact_persons.Any(b => b.original_number != null) ? string.Join(",",housing.result.contact_persons.Where(b => b.original_number != null).Select(b => b.original_number)) : "",
+                    string.Join(",",housing.result.contact_persons.Select(b => b.profile_type)),
+                    housing.result.owner_type,
+                    housing.result.contact_person_type,
+                    housing.result.hestimate == null ? "" : housing.result.hestimate.label,
+                    housing.result.hestimate?.value.ToString() ?? ""
+                }));
+            }
+            writer.Close();
         }
 
         static void ParseHousingData(string inputDir, string outputDir)

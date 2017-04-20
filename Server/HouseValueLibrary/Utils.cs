@@ -46,5 +46,39 @@ namespace HouseValueLibrary
             return features;
         }
 
+        
+        public static IEnumerable<House> GetComparables(House property,  IEnumerable<House> data)
+        {
+            int comparables_count = 6;
+            var comparables = data.Where(h => String.Equals(h.city_name, property.city_name, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+            House[] new_comparables = comparables;
+            if (new_comparables.Count() > comparables_count)
+            {
+                comparables = new_comparables.ToArray();
+                new_comparables = comparables.Where(h => Math.Abs(h.year - property.year) < 10).ToArray();
+                if (new_comparables.Length > comparables_count)
+                {
+                    comparables = new_comparables;
+                    new_comparables = comparables.Where(h => h.built_up_area*2 > property.built_up_area/2 && property.built_up_area*2 > h.built_up_area).ToArray();
+                    if (new_comparables.Length > comparables_count)
+                    {
+                        comparables = new_comparables;
+                        new_comparables = comparables.Where(h => (DateTime.Now - new DateTime(h.date_priced)).TotalDays < 10*365).ToArray();
+                        if (new_comparables.Length > comparables_count)
+                        {
+                            comparables = new_comparables;
+                            new_comparables = comparables.Where(h => String.Equals(h.locality, property.locality, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+                            if (new_comparables.Length > comparables_count)
+                            {
+                                comparables = new_comparables;
+                            }
+                        }
+                    }
+                }
+            }
+            return comparables.OrderBy(h => Math.Abs(property.built_up_area - h.built_up_area)).Take(6);
+        }
+        
+
     }
 }

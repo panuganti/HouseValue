@@ -1,6 +1,7 @@
 ﻿using HouseValueLibrary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -14,9 +15,30 @@ namespace HouseValueServer.Controllers
     {
         private string apiKeyFilename = "apiKey.txt";
         private string apiKey = "";
-
+        private List<House> houses;
+        private int count = 0;
+        private int trycount = 0;
         public FeedController()
         {
+            string outputfile = @"F:\GitHub\HouseValue\Server\Data\housing.tsv";
+            var houseslines = File.ReadAllLines(outputfile).Skip(1);
+            houses = new List<House>();
+            
+            foreach (var housesline in houseslines)
+            {
+                try
+                {
+                    var house = new House(housesline);
+                    houses.Add(house);
+                    count++;
+                }
+                catch (Exception e)
+                {
+                    trycount++;
+                    Console.WriteLine(e.Message);
+                }
+            }
+            
         }
 
         // POST feed/postarticle
@@ -56,66 +78,48 @@ namespace HouseValueServer.Controllers
             var value = await ServiceCall.InvokeRequestResponseService(featureVector, apiKey);
             return Convert.ToInt32(1000*(Convert.ToInt32(value * housingData.built_up_area/1000)));
         }
+
+        [HttpPost]
+        [Route("feed/getpriceestimate")]
+        public async Task<double> GetPriceEstimate([FromBody] House house)
+        {
+            var comparables = Utils.GetComparables(house, houses).ToArray();
+            if (comparables.Length < 6)
+            {
+                return await GetEstimate(new Property
+                {
+                    LatLng = new LatLng() { Lat = house.lat, Lng = house.lng},
+                    YearConstructed = house.year,
+                    BuiltUpArea = house.built_up_area,
+                    PlotSize = house.built_up_area,
+                    Bathrooms = house.bathroom_count,
+                    Bedrooms = house.bedroom_count,
+                    Pincode = house.pincode ?? "500027",
+                    UnderConstruction = false,
+                    FloorCount = house.floor_count,
+                    FloorNumber = house.floor_number
+                });
+            }
+            var avg_price_per_sqft = comparables.Average(c => c.price_per_sqft);
+            return Convert.ToInt32(1000 * (Convert.ToInt32(avg_price_per_sqft * house.built_up_area / 1000)));
+        }
+
+
+        [HttpPost]
+        [Route("feed/getcomparables")]
+        public House[] GetComparables([FromBody] House house)
+        {
+            try
+            {
+                var comparables = Utils.GetComparables(house, houses).ToArray();
+                return comparables;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
     }
 
-    [DataContract]
-    public class Test
-    {
-        [DataMember]
-        public string Id { get; set; }
-    }
-
-
-    [DataContract]
-    public class Property
-    {
-        [DataMember]
-        public LatLng LatLng { get; set; }
-        [DataMember]
-        public int YearConstructed { get; set; }
-        [DataMember]
-        public double BuiltUpArea { get; set; }
-        [DataMember]
-        public double PlotSize { get; set; }
-        [DataMember]
-        public int Bathrooms { get; set; }
-        [DataMember]
-        public int Bedrooms { get; set; }
-        [DataMember]
-        public string Pincode { get; set; }
-        [DataMember]
-        public bool UnderConstruction { get; set; }
-        [DataMember]
-        public int FloorCount { get; set; }
-        [DataMember]
-        public int FloorNumber { get; set; }
-    }
-
-    [DataContract]
-    public enum PropertyType
-    {
-        [EnumMember]
-        MultistoreyApartment,
-        [EnumMember]
-        BuilderFloorApartment,
-        [EnumMember]
-        ResidentialHouse,
-        [EnumMember]
-        Villa,
-        [EnumMember]
-        ResidentialPlot,
-        [EnumMember]
-        Penthouse,
-        [EnumMember]
-        Studio
-    }
-
-    [DataContract]
-    public class LatLng
-    {
-        [DataMember]
-        public double Lat { get; set; }
-        [DataMember]
-        public double Lng { get; set; }
-    }
 }

@@ -167,7 +167,7 @@ namespace HouseValueLibrary
         public float peripheral_score { get; set; }
         public string locality_type { get; set; }
         public string society_type { get; set; }
-        public object poshness_index { get; set; }
+        public string poshness_index { get; set; }
         public Connectivity connectivity { get; set; }
         public Neighbourhood neighbourhood { get; set; }
         public float neighbourhood_score { get; set; }
@@ -189,7 +189,7 @@ namespace HouseValueLibrary
     {
         public string label { get; set; }
         public int value { get; set; }
-        public object formatted_value { get; set; }
+        public string formatted_value { get; set; }
     }
 
     public class Images_With_Master_Tags
@@ -211,7 +211,7 @@ namespace HouseValueLibrary
         public int id { get; set; }
         public string name { get; set; }
         public string firm { get; set; }
-        public object[] number { get; set; }
+        public string[] number { get; set; }
         public string experience { get; set; }
         public Locality[] localities { get; set; }
         public Service[] services { get; set; }
@@ -238,8 +238,8 @@ namespace HouseValueLibrary
         public int profile_id { get; set; }
         public string name { get; set; }
         public string firm_name { get; set; }
-        public object number { get; set; }
-        public object original_number { get; set; }
+        public string number { get; set; }
+        public string original_number { get; set; }
         public string profile_url { get; set; }
         public string image_url { get; set; }
         public string image_url_new { get; set; }

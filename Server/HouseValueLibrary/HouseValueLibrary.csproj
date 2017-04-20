@@ -49,8 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="House.cs" />
     <Compile Include="Housing.cs" />
     <Compile Include="HousingData.cs" />
+    <Compile Include="Property.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="ServiceCall.cs" />
     <Compile Include="Utils.cs" />
